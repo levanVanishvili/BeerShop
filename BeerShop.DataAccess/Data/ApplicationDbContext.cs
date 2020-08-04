@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BeerShop.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +13,7 @@ namespace BeerShop.DataAccess.Data
             : base(options)
         {
         }
+
+        public DbSet<Style> Styles { get; set; }
     }
 }
