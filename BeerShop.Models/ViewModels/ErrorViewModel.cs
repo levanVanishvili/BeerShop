@@ -1,6 +1,6 @@
 using System;
 
-namespace BeerShop.Models
+namespace BeerShop.Models.ViewModels
 {
     public class ErrorViewModel
     {

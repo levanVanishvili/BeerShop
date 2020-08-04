@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BeerShop.DataAccess\BeerShop.DataAccess.csproj" />
+    <ProjectReference Include="..\BeerShop.Models\BeerShop.Models.csproj" />
+    <ProjectReference Include="..\BeerShop.Utility\BeerShop.Utility.csproj" />
   </ItemGroup>
 
 </Project>

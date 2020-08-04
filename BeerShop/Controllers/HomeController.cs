@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BeerShop.Models;
+using BeerShop.Models.ViewModels;
 
 namespace BeerShop.Controllers
 {
