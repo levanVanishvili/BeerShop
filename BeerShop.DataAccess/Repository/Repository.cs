@@ -52,7 +52,7 @@ namespace BeerShop.DataAccess.Repository
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, string IncludePoreperties = null)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, string includePoreperties = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
