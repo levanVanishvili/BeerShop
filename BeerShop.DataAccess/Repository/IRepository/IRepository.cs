@@ -14,13 +14,13 @@ namespace BeerShop.DataAccess.Repository.IRepository
 
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedEnumerable<T>> orderBy = null,
-            string IncludePoreperties = null
+            string includePoreperties = null
             );
 
         T GetFirstOrDefault(
 
             Expression<Func<T, bool>> filter = null,            
-            string IncludePoreperties = null
+            string includePoreperties = null
             );
 
         void Add(T entity); 
