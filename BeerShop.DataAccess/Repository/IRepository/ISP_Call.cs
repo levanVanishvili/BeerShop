@@ -15,7 +15,7 @@ namespace BeerShop.DataAccess.Repository.IRepository
 
         IEnumerable<T> list<T>(string procedureName, DynamicParameters param = null);
 
-        Tuple<IEnumerable<T1>, IEnumerable<T2>> list<T1, T2>(string procedureName, DynamicParameters param = null);
+        Tuple<IEnumerable<T1>, IEnumerable<T2>> List<T1, T2>(string procedureName, DynamicParameters param = null);
 
     }
 }
