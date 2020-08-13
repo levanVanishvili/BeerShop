@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
-
     [Area("Admin")]
     public class StyleController : Controller
     {
@@ -44,7 +44,6 @@ namespace BeerShop.Areas.Admin.Controllers
             {
                 return View(style);
             }
-
         }
 
         [HttpPost]
@@ -67,16 +66,27 @@ namespace BeerShop.Areas.Admin.Controllers
             return View(style);
         }
 
-
         #region API CALLS
-        [HttpGet]
 
+        [HttpGet]
         public IActionResult GetAll()
         {
             var allObj = _unitOfwork.Style.GetAll();
             return Json(new { data = allObj });
         }
 
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var objFromDb = _unitOfwork.Style.Get(id);
+            if (objFromDb == null)
+            {
+                return Json(new { success = false, message = "Error While Deleting" });
+            }
+            _unitOfwork.Style.Remove(objFromDb);
+            _unitOfwork.Save();
+            return Json(new { success = true, message = "Delete Successful" });
+        }
 
         #endregion
     }
