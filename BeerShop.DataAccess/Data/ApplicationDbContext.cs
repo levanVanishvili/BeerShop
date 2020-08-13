@@ -15,5 +15,6 @@ namespace BeerShop.DataAccess.Data
         }
 
         public DbSet<Style> Styles { get; set; }
+        public DbSet<ContainerType> ContainerTypes { get; set; }
     }
 }

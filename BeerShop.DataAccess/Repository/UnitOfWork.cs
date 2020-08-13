@@ -15,10 +15,12 @@ namespace BeerShop.DataAccess.Repository
         {
             _db = db;
             Style = new StyleRepository(_db);
+            ContainerType = new ContainerTypeRepository(_db);
             SP_Call = new SP_Call(_db);
         }
 
         public IStyleRepository Style { get; private set; }
+        public IContainerTypeRepository ContainerType { get; private set; }
         public ISP_Call SP_Call { get; private set; }
 
         public void Dispose()
