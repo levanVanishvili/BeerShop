@@ -20,7 +20,7 @@ function loadDataTable() {
                            <a href="/Admin/Style/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                            <i class="fas fa-edit"></i>
                            </a>
-                           <a class="btn btn-danger text-white" style="cursor:pointer">
+                           <a onclick=Delete("/Admin/Style/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                            <i class="fas fa-trash-alt"></i>
                            </a>
                            </div>   
@@ -29,5 +29,31 @@ function loadDataTable() {
             }
 
         ]
+    });
+}
+
+function Delete(url) {
+
+    swal({
+        title: "Are You Sure You Want To Delete?",
+        text: "Will You Not Be Able To Restore The Data!",
+        icon: "Warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        dataTable.ajax.reload();
+                    } else {
+                        toastr.error(data.message);
+                    }
+                }
+            });
+        }
     });
 }
