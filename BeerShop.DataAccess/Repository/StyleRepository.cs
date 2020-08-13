@@ -24,8 +24,6 @@ namespace BeerShop.DataAccess.Repository
             if (objFromDb != null)
             {
                 objFromDb.Name = style.Name;
-
-                _db.SaveChanges();
             }
             
 

@@ -47,6 +47,27 @@ namespace BeerShop.Areas.Admin.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpSert(Style style)
+        {
+            if (ModelState.IsValid)
+            {
+                if (style.Id == 0 )
+                {
+                    _unitOfwork.Style.Add(style);                    
+                }
+                else
+                {
+                    _unitOfwork.Style.Update(style);                    
+                }
+                _unitOfwork.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(style);
+        }
+
+
         #region API CALLS
         [HttpGet]
 

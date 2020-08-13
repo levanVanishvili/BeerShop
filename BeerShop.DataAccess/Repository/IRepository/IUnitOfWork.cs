@@ -9,5 +9,7 @@ namespace BeerShop.DataAccess.Repository.IRepository
         IStyleRepository Style { get; }
 
         ISP_Call SP_Call { get; }
+
+        void Save();
     }
 }
