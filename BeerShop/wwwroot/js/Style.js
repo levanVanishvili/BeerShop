@@ -11,7 +11,7 @@ function loadDataTable() {
             "url": "/Admin/Style/GetAll"
         },
         "columns": [
-            { "data": "name","width": "60%" },
+            { "data": "name", "width": "60%"},
             {
                 "data": "id",
                 "render": function (data) {

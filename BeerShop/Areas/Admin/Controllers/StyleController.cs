@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BeerShop.DataAccess.Repository.IRepository;
+using BeerShop.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeerShop.Areas.Admin.Controllers
@@ -22,6 +23,28 @@ namespace BeerShop.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult UpSert(int? id)
+        {
+            Style style = new Style();
+            
+            if (id==null)
+            {
+                //Create Style
+                return View(style);
+            }
+            // Edit Style
+            style = _unitOfwork.Style.Get(id.GetValueOrDefault());
+            if (style==null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(style);
+            }
+
         }
 
         #region API CALLS
