@@ -17,6 +17,6 @@ namespace BeerShop.Models
 
         [Display(Name = "Container Size")]
         [Required]
-        public double Size { get; set; }
+        public String Size { get; set; }
     }
 }
