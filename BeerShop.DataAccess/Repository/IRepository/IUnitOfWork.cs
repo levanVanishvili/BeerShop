@@ -11,6 +11,8 @@ namespace BeerShop.DataAccess.Repository.IRepository
 
         IContainerTypeRepository ContainerType { get; }
 
+        IProductRepository Product { get; }
+
         ISP_Call SP_Call { get; }
 
         void Save();

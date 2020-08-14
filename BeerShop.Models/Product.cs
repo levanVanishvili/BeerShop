@@ -38,7 +38,7 @@ namespace BeerShop.Models
         [Range(1, 10000)]
         public double Price100 { get; set; }
 
-        public int ImageUrl { get; set; }
+        public String ImageUrl { get; set; }
 
         [Required]
         public int StyleId{ get; set; }
