@@ -50,7 +50,6 @@ namespace BeerShop.Models
         public int ContainerTypeId { get; set; }
 
         [ForeignKey("ContainerTypeId")]
-        public ContainerType ContainerType { get; set; }
-
+        public ContainerType ContainerType { get; set; } 
     }
 }

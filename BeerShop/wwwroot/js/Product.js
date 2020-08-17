@@ -12,12 +12,12 @@ function loadDataTable() {
         },
         "columns": [
             { "data": "name", "width": "25%" },
-            { "data": "Style.Name", "width": "20%" },
-            { "data": "ContainerType.Name", "width": "10%" },
-            { "data": "ContainerSize.Size", "width": "10%" },
-            { "data": "ABV", "width": "5%" },
-            { "data": "Price", "width": "8%" },
-            { "data": "Brewery", "width": "15%" },
+            { "data": "style.name", "width": "20%" },
+            { "data": "containerType.name", "width": "10%" },
+            { "data": "containerType.size", "width": "10%" },
+            { "data": "abv", "width": "5%" },
+            { "data": "price", "width": "8%" },
+            { "data": "brewery", "width": "10%" },
             {
                 "data": "id",
                 "render": function (data) {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.IO;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
@@ -58,25 +59,59 @@ namespace BeerShop.Areas.Admin.Controllers
             }
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult UpSert(Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (product.Id == 0 )
-        //        {
-        //            _unitOfwork.Product.Add(product);                    
-        //        }
-        //        else
-        //        {
-        //            _unitOfwork.Product.Update(product);                    
-        //        }
-        //        _unitOfwork.Save();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(product);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpSert(ProductVM productVM)
+        {
+            if (ModelState.IsValid)
+            {
+                string webRootPath = _hostEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count>0)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(webRootPath, @"images\products");
+                    var extenstion = Path.GetExtension(files[0].FileName);
+
+                    if (productVM.Product.ImageUrl != null)
+                    {
+                        //this is an edit and we need to remove old image
+                        var imagePath = Path.Combine(webRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+
+                    }
+                    using (var filesStreams = new FileStream(Path.Combine(uploads, fileName + extenstion), FileMode.Create))
+                    {
+                        files[0].CopyTo(filesStreams);
+                    }
+                    productVM.Product.ImageUrl = @"\images\products\" + fileName + extenstion;
+                }
+                else
+                {
+                    //update when they do not cahnge the image
+                    if (productVM.Product.Id != 0 )
+                    {
+                        Product objFromDb = _unitOfwork.Product.Get(productVM.Product.Id);
+                        productVM.Product.ImageUrl = objFromDb.ImageUrl;
+                    }
+                }
+
+                if (productVM.Product.Id == 0)
+                {
+                    _unitOfwork.Product.Add(productVM.Product);
+                }
+                else
+                {
+                    _unitOfwork.Product.Update(productVM.Product);
+                }
+                _unitOfwork.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(productVM);
+        }
 
         #region API CALLS
 
