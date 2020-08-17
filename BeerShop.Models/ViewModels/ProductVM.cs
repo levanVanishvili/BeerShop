@@ -10,7 +10,5 @@ namespace BeerShop.Models.ViewModels
         public Product Product { get; set; }
 
         public IEnumerable<SelectListItem> StyleList { get; set; }
-
-        public IEnumerable<SelectListItem> ContainerTypeList { get; set; }
     }
 }
