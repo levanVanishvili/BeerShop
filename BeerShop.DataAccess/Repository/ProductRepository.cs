@@ -37,10 +37,9 @@ namespace BeerShop.DataAccess.Repository
                 objFromDb.Description = product.Description;
                 objFromDb.Brewery = product.Brewery;
                 objFromDb.StyleId = product.StyleId;
-                objFromDb.ContainerTypeId = product.ContainerTypeId;
+                objFromDb.ContainerTypeId = product.ContainerTypeId;                
             }
             
-
         }
     }
 }

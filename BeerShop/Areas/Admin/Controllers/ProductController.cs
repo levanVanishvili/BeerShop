@@ -40,7 +40,19 @@ namespace BeerShop.Areas.Admin.Controllers
                 
                     Text = i.Name,
                     Value = i.Id.ToString()
-                })  
+                }),
+                ContainerTypeList = _unitOfwork.ContainerType.GetAll().Select(i => new SelectListItem
+                {
+
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                ContainerSizeList = _unitOfwork.ContainerType.GetAll().Select(i => new SelectListItem
+                {
+
+                    Text = i.Size,
+                    Value = i.Id.ToString()
+                })
             }; 
             if (id==null)
             {

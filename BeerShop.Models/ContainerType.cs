@@ -7,7 +7,7 @@ namespace BeerShop.Models
 {
     public class ContainerType
     {
-        [Key]
+        [Key]        
         public int Id { get; set; }
 
         [Display(Name = "Container Type")]
