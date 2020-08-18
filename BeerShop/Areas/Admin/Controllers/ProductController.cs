@@ -103,7 +103,7 @@ namespace BeerShop.Areas.Admin.Controllers
                 }
                 else
                 {
-                    //update when they do not cahnge the image
+                    //update when they do not change the image
                     if (productVM.Product.Id != 0 )
                     {
                         Product objFromDb = _unitOfwork.Product.Get(productVM.Product.Id);
@@ -141,6 +141,12 @@ namespace BeerShop.Areas.Admin.Controllers
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error While Deleting" });
+            }
+            string webRootPath = _hostEnvironment.WebRootPath;
+            var imagePath = Path.Combine(webRootPath, objFromDb.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
             }
             _unitOfwork.Product.Remove(objFromDb);
             _unitOfwork.Save();

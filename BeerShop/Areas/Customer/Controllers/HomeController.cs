@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BeerShop.Models.ViewModels;
+using BeerShop.DataAccess.Repository.IRepository;
+using BeerShop.Models;
 
 namespace BeerShop.Area.Customer.Controllers
 {
@@ -13,15 +15,18 @@ namespace BeerShop.Area.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includePoreperties: "Style,ContainerType");
+            return View(productList);
         }
 
         public IActionResult Privacy()
