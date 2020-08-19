@@ -13,6 +13,8 @@ namespace BeerShop.DataAccess.Repository.IRepository
 
         IProductRepository Product { get; }
 
+        ICompanyRepository Company { get; }
+
         ISP_Call SP_Call { get; }
 
         void Save();
