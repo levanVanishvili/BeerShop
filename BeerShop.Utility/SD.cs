@@ -11,5 +11,10 @@ namespace BeerShop.Utility
         public const string Proc_ContainerType_GetAll = "usp_GetAllContainerType";
         public const string Proc_ContainerType_Update = "usp_UpdateContainerType";
         public const string Proc_ContainerType_Delete = "usp_DeleteContainerType";
+
+        public const string Role_User_Indi = "Individual Customer";
+        public const string Role_User_Comp = "Company Customer";
+        public const string Role_Admin = "Admin";
+        public const string Role_Employee = "Employee";
     }
 }
