@@ -1,5 +1,6 @@
 ﻿using BeerShop.DataAccess.Data;
 using BeerShop.DataAccess.Repository.IRepository;
+using BeerShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,7 @@ namespace BeerShop.DataAccess.Repository
             ContainerType = new ContainerTypeRepository(_db);
             Product = new ProductRepository(_db);
             Company = new CompanyRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
             SP_Call = new SP_Call(_db);
         }
 
@@ -25,6 +27,7 @@ namespace BeerShop.DataAccess.Repository
         public IContainerTypeRepository ContainerType { get; private set; }
         public IProductRepository Product { get; private set; }
         public ICompanyRepository Company { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
         public ISP_Call SP_Call { get; private set; }
 
         public void Dispose()
