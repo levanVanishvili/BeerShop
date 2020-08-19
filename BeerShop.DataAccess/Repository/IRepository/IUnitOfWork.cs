@@ -15,7 +15,7 @@ namespace BeerShop.DataAccess.Repository.IRepository
 
         ICompanyRepository Company { get; }
 
-        IApplicationUserRepository application { get; }
+        IApplicationUserRepository ApplicationUser { get; }
 
         ISP_Call SP_Call { get; }
 
