@@ -8,7 +8,7 @@ using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
-using Microsoft.EntityFrameworkCore
+using Microsoft.EntityFrameworkCore;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
@@ -28,7 +28,7 @@ namespace BeerShop.Areas.Admin.Controllers
             return View();
         }
 
-       
+
 
         #region API CALLS
 
@@ -43,7 +43,7 @@ namespace BeerShop.Areas.Admin.Controllers
             {
                 var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
                 user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
-                if (user.Company==null)
+                if (user.Company == null)
                 {
                     user.Company = new Company()
                     {
@@ -53,8 +53,8 @@ namespace BeerShop.Areas.Admin.Controllers
             }
             return Json(new { data = userList });
         }
-        
 
         #endregion
-    }
+    } 
 }
+
