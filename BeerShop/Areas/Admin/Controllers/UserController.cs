@@ -9,11 +9,15 @@ using BeerShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using BeerShop.Utility;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
     //different way: create functions(using ApplicationDbContext) without using repository pattern  
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;

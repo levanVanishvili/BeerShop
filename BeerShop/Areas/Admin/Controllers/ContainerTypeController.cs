@@ -7,6 +7,7 @@ using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
 using BeerShop.Utility;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
@@ -14,6 +15,8 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 namespace BeerShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
+
     public class ContainerTypeController : Controller
     {
         private readonly IUnitOfWork _unitOfwork;

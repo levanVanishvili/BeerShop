@@ -5,12 +5,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
+using BeerShop.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles =SD.Role_Admin)]
+
     public class StyleController : Controller
     {
         private readonly IUnitOfWork _unitOfwork;
