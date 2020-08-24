@@ -49,28 +49,20 @@ function loadDataTable() {
     });
 }
 
-function Delete(url) {
+function LockUnlock(id) {
 
-    swal({
-        title: "Are You Sure You Want To Delete?",
-        text: "Will You Not Be Able To Restore The Data!",
-        icon: "Warning",
-        buttons: true,
-        dangerMode: true
-    }).then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-                type: "DELETE",
-                url: url,
-                success: function (data) {
-                    if (data.success) {
-                        toastr.success(data.message);
-                        dataTable.ajax.reload();
-                    } else {
-                        toastr.error(data.message);
-                    }
-                }
-            });
+    $.ajax({
+        type: "POST",
+        url: '/Admin/User/LockUnlock',
+        data: JSON.stringify(id),
+        contentType: "application/json",
+        success: function (data) {
+            if (data.success) {
+                toastr.success(data.message);
+                dataTable.ajax.reload();
+            } else {
+                toastr.error(data.message);
+            }
         }
     });
-}
+}     
