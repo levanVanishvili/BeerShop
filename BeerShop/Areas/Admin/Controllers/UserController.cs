@@ -54,6 +54,28 @@ namespace BeerShop.Areas.Admin.Controllers
             return Json(new { data = userList });
         }
 
+        [HttpPost]
+
+        public IActionResult LockUnlock([FromBody] string id)
+        {
+            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+            if (objFromDb==null)
+            {
+                return Json(new { success = false, message = "Error While Looking/Unlocking" });
+            }
+            if (objFromDb.LockoutEnd!=null && objFromDb.LockoutEnd>DateTime.Now)
+            {
+                //User is currently locked, we will unlock them
+                objFromDb.LockoutEnd = DateTime.Now;
+            }
+            else
+            {
+                objFromDb.LockoutEnd = DateTime.Now.AddYears(1000);
+            }
+            _db.SaveChanges();
+            return Json(new { success = true, message = "Operation Successful." });
+        }
+
         #endregion
     } 
 }
