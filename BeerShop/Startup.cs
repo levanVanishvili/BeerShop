@@ -51,6 +51,11 @@ namespace BeerShop
                 Options.AppId = "357053302355084";
                 Options.AppSecret = "bca2a9a249dbcaf14d272f1a708f5ddb";
             });
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "771259586244-va1tvlcn27sd1nv9de2rkjb5s4kjbad2.apps.googleusercontent.com";
+                options.ClientSecret = "mLv9WiODJ-2o-zfnhizuEfEc";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
