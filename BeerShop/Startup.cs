@@ -46,6 +46,11 @@ namespace BeerShop
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+            services.AddAuthentication().AddFacebook(Options =>
+            {
+                Options.AppId = "357053302355084";
+                Options.AppSecret = "bca2a9a249dbcaf14d272f1a708f5ddb";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
