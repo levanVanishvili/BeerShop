@@ -29,6 +29,18 @@ namespace BeerShop.Area.Customer.Controllers
             return View(productList);
         }
 
+        public IActionResult Details(int id)
+        {
+            var productFromDb = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id, includePoreperties: ("Style,ContainerType"));
+            ShoppingCart cartobj = new ShoppingCart()
+            {
+                Product = productFromDb,
+                ProductId = productFromDb.Id
+            };
+
+            return View(cartobj);
+        }
+
         public IActionResult Privacy()
         {
             return View();
