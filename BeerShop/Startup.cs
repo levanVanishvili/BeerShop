@@ -57,6 +57,12 @@ namespace BeerShop
                 options.ClientId = "771259586244-va1tvlcn27sd1nv9de2rkjb5s4kjbad2.apps.googleusercontent.com";
                 options.ClientSecret = "mLv9WiODJ-2o-zfnhizuEfEc";
             });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +83,7 @@ namespace BeerShop
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
