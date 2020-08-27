@@ -13,7 +13,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BeerShop.Areas.Customer.Controllers
 {
-    public class CartController1 : Controller
+    [Area("Customer")]
+    public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
@@ -21,7 +22,7 @@ namespace BeerShop.Areas.Customer.Controllers
 
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
-        public CartController1(IUnitOfWork unitOfWork, IEmailSender emailSender, UserManager<IdentityUser> userManager)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender, UserManager<IdentityUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
