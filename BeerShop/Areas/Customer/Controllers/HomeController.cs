@@ -56,12 +56,19 @@ namespace BeerShop.Area.Customer.Controllers
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 CartObject.ApplicationUserId = claim.Value;
 
-                ShoppingCart cadtFroDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.ApplicationUser == CartObject.ApplicationUser && u.ProductId == CartObject.ProductId, includePoreperties: "Product");
-                if (CartObject==null)
+                ShoppingCart cartFroDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.ApplicationUserId == CartObject.ApplicationUserId && u.ProductId == CartObject.ProductId, includePoreperties: "Product");
+                if (cartFroDb == null)
                 {
                     //no records exist in database for that product for that user
-
+                    _unitOfWork.ShoppingCart.Add(CartObject);
                 }
+                else
+                {
+                    cartFroDb.Count += CartObject.Count;
+                    _unitOfWork.ShoppingCart.Update(cartFroDb);
+                }
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
             }
             else
             {
