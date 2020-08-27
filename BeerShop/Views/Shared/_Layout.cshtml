@@ -1,4 +1,7 @@
 ﻿@using BeerShop.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContexAccessor
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,32 +30,50 @@
                         <li class="nav-item">
                             <a class="nav-link text-white-50" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if(User.IsInRole(SD.Role_Admin))
+                        @if (User.IsInRole(SD.Role_Admin))
                         {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white-50" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Content Managment
-                            </a>
-                            <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="Style" asp-action="Index">Style</a>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="ContainerType" asp-action="Index">Container Type</a>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white-50" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Content Managment
+                                </a>
+                                <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Style" asp-action="Index">Style</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="ContainerType" asp-action="Index">Container Type</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
                         }
                         @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                         {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white-50" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                User / Company
-                            </a>
-                            <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">User</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white-50" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    User / Company
+                                </a>
+                                <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">User</a>
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
+                        }
+                        @if (HttpContexAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart) != null)
+                        {
+                            <li style="color:white">
+                                <a class="nav-link text-warning">
+                                    @{var count = HttpContexAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart); }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (@count)
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li style="color:white">
+                                <a herf="#" class="nav-link text-warning">
+                                    @{var count = HttpContexAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart); }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (0)
+                                </a>
+                            </li>
                         }
                     </ul>
                 </div>
