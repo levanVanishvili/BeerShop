@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using BeerShop.Models.ViewModels;
 using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BeerShop.Area.Customer.Controllers
 {
@@ -39,6 +41,39 @@ namespace BeerShop.Area.Customer.Controllers
             };
 
             return View(cartobj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult Details(ShoppingCart CartObject)
+        {
+            CartObject.Id = 0;
+            if (ModelState.IsValid)
+            {
+                //Then we will add to cart
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                CartObject.ApplicationUserId = claim.Value;
+
+                ShoppingCart cadtFroDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.ApplicationUser == CartObject.ApplicationUser && u.ProductId == CartObject.ProductId, includePoreperties: "Product");
+                if (CartObject==null)
+                {
+                    //no records exist in database for that product for that user
+
+                }
+            }
+            else
+            {
+                var productFromDb = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == CartObject.ProductId, includePoreperties: ("Style,ContainerType"));
+                ShoppingCart cartobj = new ShoppingCart()
+                {
+                    Product = productFromDb,
+                    ProductId = productFromDb.Id
+                };
+
+                return View(cartobj);
+            }
         }
 
         public IActionResult Privacy()
