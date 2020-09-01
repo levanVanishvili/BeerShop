@@ -9,6 +9,7 @@ using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
 using BeerShop.Models.ViewModels;
 using BeerShop.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -96,12 +97,47 @@ namespace BeerShop.Areas.Customer.Controllers
         }
 
         //Increment Item in shoping cart
-        public IActionResult plus(int cartId)
+        public IActionResult Plus(int cartId)
         {
             var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(c => c.Id == cartId, includePoreperties:"Product");
             cart.Count += 1;
             cart.Price = SD.GetPriceBasedOnQuantity(cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
             _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        //Decrement Item in shoping cart and update session
+        public IActionResult Minus(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(c => c.Id == cartId, includePoreperties: "Product");
+
+            if (cart.Count==1)
+            {
+                var cnt = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count;
+                _unitOfWork.ShoppingCart.Remove(cart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.ssShoppingCart, cnt - 1);
+            }
+            else
+            {
+                cart.Count -= 1;
+                cart.Price = SD.GetPriceBasedOnQuantity(cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
+                _unitOfWork.Save();
+            }           
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+        //Remove Item in shoping cart and update session
+        public IActionResult Remove(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(c => c.Id == cartId, includePoreperties: "Product");
+            
+            var cnt = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count;
+            _unitOfWork.ShoppingCart.Remove(cart);
+            _unitOfWork.Save();
+            HttpContext.Session.SetInt32(SD.ssShoppingCart, cnt - 1);
+
             return RedirectToAction(nameof(Index));
         }
     }
