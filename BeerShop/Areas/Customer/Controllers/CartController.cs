@@ -94,5 +94,15 @@ namespace BeerShop.Areas.Customer.Controllers
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return RedirectToAction("Index");
         }
+
+        //Increment Item in shoping cart
+        public IActionResult plus(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(c => c.Id == cartId, includePoreperties:"Product");
+            cart.Count += 1;
+            cart.Price = SD.GetPriceBasedOnQuantity(cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
