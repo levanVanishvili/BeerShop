@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BeerShop.DataAccess.Repository.IRepository;
+using BeerShop.Models;
 using BeerShop.Models.ViewModels;
 using BeerShop.Utility;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +40,7 @@ namespace BeerShop.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 OrderHeader = new Models.OrderHeader(),
-                ListCart = _unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId==claim.Value, includePoreperties:"Product")
+                ListCart = _unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId==claim.Value, includePoreperties:"Product"),                
             };
             //get applicationuser with company
             ShoppingCartVM.OrderHeader.OrderTotal = 0;
@@ -54,8 +55,8 @@ namespace BeerShop.Areas.Customer.Controllers
                 list.Product.Description = SD.ConvertToRawHtml(list.Product.Description);
                 if (list.Product.Description.Length>100)
                 {
-                    list.Product.Description = list.Product.Description.Substring(0,99)+"...";
-                }
+                    list.Product.Description = list.Product.Description.Substring(0,99)+"...";                }
+                
             }
 
             return View(ShoppingCartVM);

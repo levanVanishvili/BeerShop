@@ -42,13 +42,11 @@ namespace BeerShop.Models
 
         [Required]
         public int StyleId{ get; set; }
-
         [ForeignKey("StyleId")]
         public Style Style { get; set; }
 
         [Required]
         public int ContainerTypeId { get; set; }
-
         [ForeignKey("ContainerTypeId")]
         public ContainerType ContainerType { get; set; } 
     }
