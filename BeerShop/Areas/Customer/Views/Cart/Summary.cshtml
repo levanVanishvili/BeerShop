@@ -113,7 +113,7 @@
                                 var OrderTotalForStripe = Model.OrderHeader.OrderTotal * 100;
                             }
                             <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                    data-keyboard="@Stripe.Value.Publishablekey"
+                                    data-key="@Stripe.Value.Publishablekey"
                                     data-amount="@OrderTotalForStripe"
                                     data-name="Beer Shop"
                                     data-lable="Place Order"

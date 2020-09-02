@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Stripe;
 
 namespace BeerShop.Areas.Customer.Controllers
 {
@@ -219,8 +220,34 @@ namespace BeerShop.Areas.Customer.Controllers
             else
             {
                 //Process the payment
+                var options = new ChargeCreateOptions
+                {
+                    Amount = Convert.ToInt32(ShoppingCartVM.OrderHeader.OrderTotal * 100),
+                    Currency = "usd",
+                    Description = "Order ID : " + ShoppingCartVM.OrderHeader.Id,
+                    Source = stripeToken
+                };
+
+                var service = new ChargeService();
+                Charge charge = service.Create(options);
+
+                if (charge.BalanceTransactionId==null)
+                {
+                    ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusRejected;
+                }
+                else
+                {
+                    ShoppingCartVM.OrderHeader.TransactionId = charge.BalanceTransactionId;
+                }
+                if (charge.Status.ToLower()=="succeeded")
+                {
+                    ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusApproved;
+                    ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
+                    ShoppingCartVM.OrderHeader.PaymentDate = DateTime.Now;
+                }
 
             }
+            _unitOfWork.Save();
 
             return RedirectToAction("OrderConfirmation", "Cart", new { id = ShoppingCartVM.OrderHeader.Id });
         }
