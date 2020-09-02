@@ -16,6 +16,7 @@ using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BeerShop.Utility;
+using Stripe;
 
 namespace BeerShop
 {
@@ -38,6 +39,7 @@ namespace BeerShop
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -83,6 +85,7 @@ namespace BeerShop
             app.UseStaticFiles();
 
             app.UseRouting();
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["Secretkey"];
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
