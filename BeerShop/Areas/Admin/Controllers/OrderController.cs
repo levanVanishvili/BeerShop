@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BeerShop.DataAccess.Repository.IRepository;
 using BeerShop.Models;
+using BeerShop.Models.ViewModels;
 using BeerShop.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,8 @@ namespace BeerShop.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitofWork;
+        [BindProperty]
+        public OrderDetailsVM OrderVM { get; set; }
 
         public OrderController(IUnitOfWork unitOfWork)
         {
@@ -24,6 +27,16 @@ namespace BeerShop.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Details(int id)
+        {
+            OrderVM = new OrderDetailsVM()
+            {
+                OrderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == id, includePoreperties: "ApplicationUser"),
+                OrderDetails = _unitofWork.OrderDetails.GetAll(o => o.OrderId == id, includePoreperties: "Product")
+            };
+            return View(OrderVM);
         }
 
         #region API CALLS
