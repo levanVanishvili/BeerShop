@@ -9,6 +9,7 @@ using BeerShop.Models.ViewModels;
 using BeerShop.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
@@ -37,6 +38,56 @@ namespace BeerShop.Areas.Admin.Controllers
                 OrderDetails = _unitofWork.OrderDetails.GetAll(o => o.OrderId == id, includePoreperties: "Product")
             };
             return View(OrderVM);
+        }
+
+        [Authorize(Roles =SD.Role_Admin+","+SD.Role_Employee)]
+        public IActionResult StartProcessing(int id)
+        {
+            OrderHeader orderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
+            orderHeader.OrderStatus = SD.StatusInProcess;
+            _unitofWork.Save();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult ShipOrder(int id)
+        {
+            OrderHeader orderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
+            orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+            orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
+            orderHeader.OrderStatus = OrderVM.OrderHeader.OrderStatus;
+            orderHeader.ShippingDate = DateTime.Now;
+            
+            _unitofWork.Save();
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult CanceOrder(int id)
+        {
+            OrderHeader orderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
+            if (orderHeader.PaymentStatus==SD.StatusApproved)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Amount = Convert.ToInt32(orderHeader.OrderTotal * 100),
+                    Reason = RefundReasons.RequestedByCustomer,
+                    Charge = orderHeader.TransactionId
+                };
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+
+                orderHeader.OrderStatus = SD.StatusRefunded;
+                orderHeader.PaymentStatus = SD.StatusRefunded;
+            }
+            else
+            {
+                orderHeader.OrderStatus = SD.StatusCancelled;
+                orderHeader.PaymentStatus = SD.StatusCancelled;
+            }            
+            _unitofWork.Save();
+            return RedirectToAction("Index");
         }
 
         #region API CALLS
