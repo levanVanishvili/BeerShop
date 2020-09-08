@@ -1,6 +1,10 @@
 ﻿@model BeerShop.Models.ViewModels.OrderDetailsVM
 @using BeerShop.Utility
 
+@using Microsoft.Extensions.Options
+
+@inject IOptions<BeerShop.Utility.StripeSettings> Stripe
+
 <form method="post">
     <input hidden asp-for="OrderHeader.Id" />
     <br />
@@ -244,8 +248,34 @@
                                 <label class="btn btn-primary form-control">@Model.OrderHeader.OrderStatus</label>
                             }
 
+                            @{
+                                var OrderTotalForStripe = Model.OrderHeader.OrderTotal * 100;
+                            }
+
+                            @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment && Model.OrderHeader.OrderStatus == SD.StatusShipped)
+                            {
+
+
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="@Stripe.Value.Publishablekey"
+                                        data-amount="@OrderTotalForStripe"
+                                        data-name="Beer Shop"
+                                        data-lable="Place Order"
+                                        data-description="Get Beer, For Less"
+                                        data-locale="auto"
+                                        data-allow-remember-me="false"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+
+                                </script>
+
+                                <script>
+                                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                </script>
+                                <button type="submit" value="Place Order" class="btn btn-success form-control">Pay Now </button>
+                            }
+
                             @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded && Model.OrderHeader.OrderStatus != SD.StatusCancelled &&
-                             (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)))
+                           (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)))
                             {
                                 <div class="pt-2">
                                     <a asp-action="CancelOrder" asp-route-id="@Model.OrderHeader.Id" class="btn btn-danger form-control">Cancel Order</a>
