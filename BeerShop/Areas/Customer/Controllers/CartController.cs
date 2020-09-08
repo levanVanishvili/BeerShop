@@ -240,7 +240,7 @@ namespace BeerShop.Areas.Customer.Controllers
                 }
                 else
                 {
-                    ShoppingCartVM.OrderHeader.TransactionId = charge.BalanceTransactionId;
+                    ShoppingCartVM.OrderHeader.TransactionId = charge.Id;
                 }
                 if (charge.Status.ToLower()=="succeeded")
                 {
