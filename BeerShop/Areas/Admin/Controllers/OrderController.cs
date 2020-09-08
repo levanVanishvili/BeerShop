@@ -51,12 +51,12 @@ namespace BeerShop.Areas.Admin.Controllers
 
         [HttpPost]
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
-        public IActionResult ShipOrder(int id)
+        public IActionResult ShipOrder()
         {
-            OrderHeader orderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
+            OrderHeader orderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
             orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
-            orderHeader.OrderStatus = OrderVM.OrderHeader.OrderStatus;
+            orderHeader.OrderStatus = SD.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
             
             _unitofWork.Save();
@@ -64,7 +64,7 @@ namespace BeerShop.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
-        public IActionResult CanceOrder(int id)
+        public IActionResult CancelOrder(int id)
         {
             OrderHeader orderHeader = _unitofWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
             if (orderHeader.PaymentStatus==SD.StatusApproved)
