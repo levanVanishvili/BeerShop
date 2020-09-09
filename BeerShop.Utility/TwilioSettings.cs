@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BeerShop.Utility
 {
-    public class TwillioOptions
+    public class TwillioSettings
     {
         public string PhoneNumber { get; set; }
         public string AuthToken { get; set; }

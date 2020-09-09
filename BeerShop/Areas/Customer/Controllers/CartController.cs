@@ -16,7 +16,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Options;
 using Stripe;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace BeerShop.Areas.Customer.Controllers
 {
@@ -25,16 +28,19 @@ namespace BeerShop.Areas.Customer.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
+
+        private TwillioSettings _twilioOptions { get; set; }
         private readonly UserManager<IdentityUser> _userManager;
 
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
-        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender, UserManager<IdentityUser> userManager)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender, UserManager<IdentityUser> userManager, IOptions<TwillioSettings> twilioOptions)
         {
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
             _userManager = userManager;
+            _twilioOptions = twilioOptions.Value;
         }
 
 
@@ -257,6 +263,22 @@ namespace BeerShop.Areas.Customer.Controllers
 
         public IActionResult OrderConfirmation(int id)
         {
+            //Twilio API integration for order confirmation (Sends sms)
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
+            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
+            try
+            {
+                var message = MessageResource.Create(
+                    body: "Order Placed On Beer Shop, Your Order ID:" + id,
+                    from: new Twilio.Types.PhoneNumber(_twilioOptions.PhoneNumber),
+                    to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber));
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+
             return View(id);
         }
     }

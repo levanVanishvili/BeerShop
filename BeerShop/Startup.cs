@@ -40,6 +40,7 @@ namespace BeerShop
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+            services.Configure<TwillioSettings>(Configuration.GetSection("Twilio"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();

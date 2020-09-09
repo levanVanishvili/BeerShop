@@ -9,7 +9,10 @@ using BeerShop.Models.ViewModels;
 using BeerShop.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Stripe;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace BeerShop.Areas.Admin.Controllers
 {
@@ -18,12 +21,14 @@ namespace BeerShop.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitofWork;
+        private TwillioSettings _twilioOptions { get; set; }
         [BindProperty]
         public OrderDetailsVM OrderVM { get; set; }
 
-        public OrderController(IUnitOfWork unitOfWork)
+        public OrderController(IUnitOfWork unitOfWork, IOptions<TwillioSettings> twilioOptions)
         {
             _unitofWork = unitOfWork;
+            _twilioOptions = twilioOptions.Value;
         }
         public IActionResult Index()
         {
@@ -100,6 +105,22 @@ namespace BeerShop.Areas.Admin.Controllers
             orderHeader.ShippingDate = DateTime.Now;
             
             _unitofWork.Save();
+
+            //Twilio API integration for order shipping (Sends sms)
+            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
+            try
+            {
+                var message = MessageResource.Create(
+                    body: "Beer Shop: Your order has been Shipped...Tracking Number : " + OrderVM.OrderHeader.TrackingNumber,
+                    from: new Twilio.Types.PhoneNumber(_twilioOptions.PhoneNumber),
+                    to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber));
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             return RedirectToAction("Index");
         }
 
