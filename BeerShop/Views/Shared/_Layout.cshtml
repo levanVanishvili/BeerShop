@@ -58,15 +58,16 @@
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-white-50" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a>
-                            @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
-                            {
-                                <span>Manage Order</span>
-                            }
-                            else
-                            {
-                                <span>Order History</span>
-                            }
+                            <a class="nav-link text-white-50" asp-area="Admin" asp-controller="Order" asp-action="Index">
+                                @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                                {
+                                    <span>Manage Order</span>
+                                }
+                                else
+                                {
+                                    <span>Order History</span>
+                                }
+                            </a>
                         </li>
                         @if (HttpContexAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart) != null)
                         {
@@ -106,7 +107,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>   
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/e19c476714.js"></script>
