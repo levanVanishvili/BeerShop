@@ -12,7 +12,15 @@
                         <img src="@product.ImageUrl" class="card-img-top rounded"/>
                         <div class="pl-1">
                             <p class="card-title h5"><b style="color:#ffffff">@product.Name</b></p>
-                            <p class="card-title text-primary">ABV <b>@product.ABV</b></p>
+                            <div class="form-row py-2">
+                                <div class="col">
+                                    <span class="form-control badge-primary  " style="height:40px;">@product.ContainerType.Name</span>
+                                </div>
+                                <div class="col">
+                                    <span class="form-control badge-primary" style="height:40px;">@product.ContainerType.Size ml</span>
+                                </div>
+                            </div>
+                            <p class="card-title text-primary">ABV: <b>@product.ABV</b></p>
                         </div>
                         <div style="padding-left:5px;">
                             <p>List Price: <strike><b class="">@product.ListPrice.ToString("c")</b></strike></p>

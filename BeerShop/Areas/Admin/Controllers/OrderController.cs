@@ -111,7 +111,7 @@ namespace BeerShop.Areas.Admin.Controllers
             try
             {
                 var message = MessageResource.Create(
-                    body: "Beer Shop: Your order has been Shipped...Tracking Number : " + OrderVM.OrderHeader.TrackingNumber,
+                    body: "Beer Shop: Your order has been Shipped...Tracking Number : " + OrderVM.OrderHeader.Carrier+ "-" + OrderVM.OrderHeader.TrackingNumber,
                     from: new Twilio.Types.PhoneNumber(_twilioOptions.PhoneNumber),
                     to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber));
 
