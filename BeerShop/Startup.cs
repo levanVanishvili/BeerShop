@@ -17,6 +17,7 @@ using BeerShop.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BeerShop.Utility;
 using Stripe;
+using BeerShop.DataAccess.Initializer;
 
 namespace BeerShop
 {
@@ -42,6 +43,7 @@ namespace BeerShop
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.Configure<TwillioSettings>(Configuration.GetSection("Twilio"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.ConfigureApplicationCookie(options =>
@@ -69,7 +71,7 @@ namespace BeerShop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -90,6 +92,7 @@ namespace BeerShop
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
+            dbInitializer.Initialize();
 
             app.UseEndpoints(endpoints =>
             {

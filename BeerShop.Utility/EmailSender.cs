@@ -22,11 +22,11 @@ namespace BeerShop.Utility
         {
             return Execute(emailOptions.SendGridKey, subject, htmlMessage, email);
         }
-        private Task Execute(string sendGridKey, string subject, string message, string email)
+        private Task Execute(string sendGridKEy, string subject, string message, string email)
         {
-            var client = new SendGridClient(sendGridKey);
-            var from = new EmailAddress("Admin@BeerShop.com", "Beer Shop");            
-            var to = new EmailAddress(email, "End User");            
+            var client = new SendGridClient(sendGridKEy);
+            var from = new EmailAddress("Admin@beer.com", "Beer Shop");
+            var to = new EmailAddress(email, "End User");
             var msg = MailHelper.CreateSingleEmail(from, to, subject, "", message);
             return client.SendEmailAsync(msg);
         }

@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BeerShop</title>
+    <title>@ViewData["Title"] - Beer Shop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/mycss.css" />
@@ -19,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">BeerShop</a>
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Beer Shop</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -92,6 +92,65 @@
             </div>
         </nav>
     </header>
+
+    <div class="web-info" style="padding-right:17px">
+        <!-- Button trigger modal -->
+        <div id="instructions" style="padding-top:0px;">
+            <button type="button" class="btn-secondary" data-toggle="modal" data-target="#exampleModal"> <i class="fas fa-info-circle" aria-hidden="true"></i> </button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Beer Shop - Demo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4><span style="color: #008080;">Website Overview:</span></h4>
+                        <ul>
+                            <li>
+                                Following are the User Account that exists by default <i style="color:dodgerblue">(Password: Admin2005*)</i>:
+                                <ul>
+                                    <li>Admin User&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<i style="color:dodgerblue">admin@gmail.com</i></li>
+                                    <li>Employee User&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<i style="color:dodgerblue">employee@gmail.com</i></li>
+                                    <li>Individual User&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<i style="color:dodgerblue">individual@gmail.com</i></li>
+                                    <li>Authorized Company User&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<i style="color:dodgerblue">authcompany@gmail.com</i></li>
+                                    <li>Non Authorized Company User&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<i style="color:dodgerblue">nonauthcompany@gmail.com</i></li>
+
+                                </ul>
+                            </li>
+                            <li>You can create new accounts as you wish! If you prefer to create any accounts please login using the Admin/Manager User and navigate to Users inside Content Management.&nbsp;</li>
+                            <li>please, if you want to test Create/Edit/Delete functionalities, add a new product/Style/Container Type and then test. when you're done testing, please remove the added product</li>
+                            @*<li>Create/Edit/Delete functionalities have been disabled for all users inside Content Management (Admin) portal to avoid misuse of website.</li>
+                                <li>If any Manager account locks any other user using Content Management portal, they will be able to lock them for only 1 min and system will unlock them after 2min.</li>
+                                <li>Orders older than 30 days might be deleted.</li>*@
+                        </ul>
+                        <h4 style="color: #2e6c80;">How to use the demo website:</h4>
+                        <ul>
+                            @*<li>This website is inteded to server as demo application for the Udemy Course.</li>*@
+                            <li>User can place order after adding items to cart.</li>
+                            <li>Once order is placed you can login as Manager/Admin User and Manage orders and see the flow of application.</li>
+                            <li>
+                                In order to place order you can use any test credit card number supported by stripe.
+                                <ul>
+                                    <li>
+                                        A default example is 4242 4242 4242 4242, valid date , any 3 digit CVV.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Admin user can register new employees/admins for the website.</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

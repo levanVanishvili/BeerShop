@@ -7,4 +7,11 @@ label {
 element.style{
     background-color: black
 }
-
+#instruction {
+    height: 0px;
+    width: 95px;
+    position: fixed;
+    right: 0%;
+    top: 100%;
+    z-index: 1000;
+}
