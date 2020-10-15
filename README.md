@@ -1,6 +1,6 @@
 # Beer Shop Trappist - Demo
 
-https://beershoptrappist.azurewebsites.net/
+
 
 # Website Overview:
 Following are the User Account that exists by default (Password: Admin2005*):
